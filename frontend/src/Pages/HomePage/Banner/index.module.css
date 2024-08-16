@@ -1,0 +1,12 @@
+.image {
+  padding-top: 38%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 12px;
+}
+
+.wrapper {
+  margin-top: 32px;
+  margin-bottom: 32px;
+}
