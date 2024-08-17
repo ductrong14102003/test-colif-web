@@ -10,6 +10,7 @@ const Product = mongoose.model("Product", {
   old_price: { type: Number },
   date: { type: Date, default: Date.now },
   avilable: { type: Boolean, default: true },
+  content: { type: String, required: true },
 });
 
 module.exports = Product;

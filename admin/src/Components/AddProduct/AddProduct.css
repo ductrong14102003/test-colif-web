@@ -8,7 +8,8 @@
   background: #fff;
 }
 
-.addproduct-itemfield {
+.addproduct-itemfield,
+.addproduct-itemfield-label {
   width: 100%;
   color: #7b7b7b;
   font-size: 16px;
@@ -66,12 +67,12 @@
   background: #6079ff;
   border: none;
   cursor: pointer;
-  color: #FFF;
+  color: #fff;
   font-size: 16px;
   font-weight: 500;
 }
 
-@media(max-width:800px) {
+@media (max-width: 800px) {
   .addproduct {
     width: auto;
     padding: 30px;

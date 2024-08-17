@@ -54,6 +54,7 @@ productRouter.post("/addproduct", async (req, res) => {
     category: req.body.category,
     new_price: req.body.new_price,
     old_price: req.body.old_price,
+    content: req.body.content,
   });
   await product.save();
   console.log("Saved");
