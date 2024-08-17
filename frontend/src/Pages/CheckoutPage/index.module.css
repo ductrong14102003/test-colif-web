@@ -1,0 +1,35 @@
+.title {
+  font-size: 32px;
+}
+
+.formGroup {
+  margin-bottom: 12px;
+}
+
+.formLabel {
+  display: block;
+}
+
+.inputField {
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: 4px;
+  outline: none;
+  border: 1px solid #000;
+  margin-top: 4px;
+}
+
+.cartItemTotal {
+  margin: 0;
+  gap: 0;
+}
+
+.errorMsg {
+  color: #ff0000;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.tableHeader {
+  grid-template-columns: 0.5fr 2fr 1fr 1fr 1fr !important;
+}

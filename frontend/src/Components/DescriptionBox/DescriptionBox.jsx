@@ -9,23 +9,10 @@ const DescriptionBox = () => {
         <div className="descriptionbox-nav-box fade">Reviews (122)</div>
       </div>
       <div className="descriptionbox-description">
-        <p>
-          An e-commerce website is an online platform that facilitates the
-          buying and selling of products or services over the internet. It
-          serves as a virtual marketplace where businesses and individuals can
-          showcase their products, interact with customers, and conduct
-          transactions without the need for a physical presence. E-commerce
-          websites have gained immense popularity due to their convenience,
-          accessibility, and the global reach they offer.
-        </p>
-        <img src="" alt="E-commerce" className="descriptionbox-image" />
-   
-        <p>
-          E-commerce websites typically display products or services along with
-          detailed descriptions, images, prices, and any available variations
-          (e.g., sizes, colors). Each product usually has its own dedicated page
-          with relevant information.
-        </p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates quia
+        repellat pariatur, architecto velit, eaque nostrum amet alias nesciunt
+        magnam, provident fuga error dolor perferendis voluptatum ipsa.
+        Pariatur, sapiente ipsa.
       </div>
     </div>
   );

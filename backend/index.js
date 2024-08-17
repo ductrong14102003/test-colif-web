@@ -9,6 +9,7 @@ const uploadRouter = require("./routes/upload");
 const authRouter = require("./routes/auth");
 const userRouter = require("./routes/users");
 const productRouter = require("./routes/products");
+const orderRouter = require("./routes/orders");
 
 app.use(express.json());
 app.use(cors());
@@ -21,6 +22,7 @@ app.use("/", uploadRouter);
 app.use("/", authRouter);
 app.use("/", userRouter);
 app.use("/", productRouter);
+app.use("/", orderRouter);
 
 // Route for Images folder
 app.use("/images", express.static("upload/images"));
