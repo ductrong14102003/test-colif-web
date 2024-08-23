@@ -68,7 +68,7 @@ const ShopContextProvider = (props) => {
     return totalItem;
   };
 
-  const addToCart = (itemId) => {
+  const addToCart = (itemId, callback) => {
     if (!localStorage.getItem("auth-token")) {
       alert("Please Login");
       return;
@@ -83,7 +83,7 @@ const ShopContextProvider = (props) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ itemId: itemId }),
-      });
+      }).then(callback);
     }
   };
 

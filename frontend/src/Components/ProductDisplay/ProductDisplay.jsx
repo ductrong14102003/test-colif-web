@@ -3,11 +3,20 @@ import "./ProductDisplay.css";
 import star_icon from "../Assets/star_icon.png";
 import star_dull_icon from "../Assets/star_dull_icon.png";
 import { ShopContext } from "../../Context/ShopContext";
-import { backend_url, currency } from "../../App";
+import { backend_url } from "../../App";
 import { formatPrice } from "../../utils";
+import { useNavigate } from "react-router-dom";
 
 const ProductDisplay = ({ product }) => {
+  const navigate = useNavigate();
+
   const { addToCart } = useContext(ShopContext);
+
+  const onAddCart = () => {
+    addToCart(product.id, () => {
+      navigate("/cart");
+    });
+  };
 
   return (
     <div className="productdisplay">
@@ -74,7 +83,7 @@ const ProductDisplay = ({ product }) => {
           </div>
         </div>
 
-        <button onClick={() => addToCart(product.id)}>ADD TO CART</button>
+        <button onClick={onAddCart}>ADD TO CART</button>
         <p className="productdisplay-right-category">
           <span>Category :</span> Sofa, Giường
         </p>
