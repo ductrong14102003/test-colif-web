@@ -1,0 +1,11 @@
+.listProduct {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  margin-top: 32px;
+}
+
+@media (max-width: 768px) {
+  .listProduct {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

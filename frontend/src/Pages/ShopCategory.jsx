@@ -3,6 +3,14 @@ import "./CSS/ShopCategory.css";
 import dropdown_icon from "../Components/Assets/dropdown_icon.png";
 import Item from "../Components/ProductItem/ProductItem";
 import { Link } from "react-router-dom";
+import slugify from "slugify";
+import WrapperContent from "../Components/WrapperContent/WrapperContent";
+
+import styles from "./index.module.css";
+
+const formatCategoryName = (name) => {
+  return slugify(name, { locale: "vi", lower: true });
+};
 
 const ShopCategory = (props) => {
   const [allproducts, setAllProducts] = useState([]);
@@ -28,24 +36,31 @@ const ShopCategory = (props) => {
           Sort by <img src={dropdown_icon} alt="" />
         </div>
       </div>
-      <div className="shopcategory-products">
-        {allproducts.map((item, i) => {
-          if (props.category === item.category) {
-            return (
-              <Item
-                id={item.id}
-                key={i}
-                name={item.name}
-                image={item.image}
-                new_price={item.new_price}
-                old_price={item.old_price}
-              />
-            );
-          } else {
-            return null;
-          }
-        })}
-      </div>
+
+      <WrapperContent>
+        <div className={styles.listProduct}>
+          {allproducts.map((item, i) => {
+            if (
+              formatCategoryName(props.category) ===
+              formatCategoryName(item.category)
+            ) {
+              return (
+                <Item
+                  id={item.id}
+                  key={i}
+                  name={item.name}
+                  image={item.image}
+                  new_price={item.new_price}
+                  old_price={item.old_price}
+                />
+              );
+            } else {
+              return null;
+            }
+          })}
+        </div>
+      </WrapperContent>
+
       <div className="shopcategory-loadmore">
         <Link to="/" style={{ textDecoration: "none" }}>
           Explore More

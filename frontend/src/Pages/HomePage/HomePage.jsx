@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import Banner from "./Banner/Banner";
 import Offers from "./Offers/Offers";
 import NewCollections from "./NewCollections/NewCollections";

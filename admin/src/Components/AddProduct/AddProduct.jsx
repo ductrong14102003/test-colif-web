@@ -4,13 +4,15 @@ import upload_area from "../Assets/upload_area.svg";
 import { backend_url } from "../../App";
 import Editor from "../Editor/Editor";
 
+const CATEGORY = ["Sofa bed", "Đèn", "Ghế lười", "Bàn đa năng"];
+
 const AddProduct = () => {
   const [image, setImage] = useState(false);
   const [productDetails, setProductDetails] = useState({
     name: "",
     description: "",
     image: "",
-    category: "women",
+    category: CATEGORY[0],
     new_price: "",
     old_price: "",
     content: "",
@@ -120,9 +122,11 @@ const AddProduct = () => {
           className="add-product-selector"
           onChange={changeHandler}
         >
-          <option value="women">Women</option>
-          <option value="men">Men</option>
-          <option value="kid">Kid</option>
+          {CATEGORY.map((it, idx) => (
+            <option key={idx} value={it}>
+              {it}
+            </option>
+          ))}
         </select>
       </div>
 
