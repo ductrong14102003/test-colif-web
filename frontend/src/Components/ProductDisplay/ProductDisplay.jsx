@@ -22,16 +22,20 @@ const ProductDisplay = ({ product }) => {
     <div className="productdisplay">
       <div className="productdisplay-left">
         <div className="productdisplay-img-list">
-          <img src={backend_url + product.image} alt="img" />
-          <img src={backend_url + product.image} alt="img" />
-          <img src={backend_url + product.image} alt="img" />
-          <img src={backend_url + product.image} alt="img" />
+          {product.images.slice(1, 5).map((it) => (
+            <img
+              src={backend_url + it}
+              alt="img"
+              style={{ objectFit: "cover" }}
+            />
+          ))}
         </div>
         <div className="productdisplay-img">
           <img
             className="productdisplay-main-img"
-            src={backend_url + product.image}
+            src={backend_url + product.images[0]}
             alt="img"
+            style={{ width: "100%", objectFit: "cover" }}
           />
         </div>
       </div>

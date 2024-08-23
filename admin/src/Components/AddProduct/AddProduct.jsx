@@ -7,11 +7,11 @@ import Editor from "../Editor/Editor";
 const CATEGORY = ["Sofa bed", "Đèn", "Ghế lười", "Bàn đa năng"];
 
 const AddProduct = () => {
-  const [image, setImage] = useState(false);
+  const [images, setImages] = useState([]);
   const [productDetails, setProductDetails] = useState({
     name: "",
     description: "",
-    image: "",
+    images: [],
     category: CATEGORY[0],
     new_price: "",
     old_price: "",
@@ -23,7 +23,7 @@ const AddProduct = () => {
     let product = productDetails;
 
     let formData = new FormData();
-    formData.append("product", image);
+    images.forEach((file) => formData.append("images", file));
 
     await fetch(`${backend_url}/upload`, {
       method: "POST",
@@ -38,7 +38,7 @@ const AddProduct = () => {
       });
 
     if (dataObj.success) {
-      product.image = dataObj.image_url;
+      product.images = dataObj.images;
       await fetch(`${backend_url}/addproduct`, {
         method: "POST",
         headers: {
@@ -56,6 +56,11 @@ const AddProduct = () => {
 
   const changeHandler = (e) => {
     setProductDetails({ ...productDetails, [e.target.name]: e.target.value });
+  };
+
+  const onFileChange = (e) => {
+    const files = e.target.files;
+    setImages([...files]);
   };
 
   return (
@@ -148,21 +153,29 @@ const AddProduct = () => {
       <div className="addproduct-itemfield">
         <p>Product image</p>
         <label htmlFor="file-input">
-          <img
-            className="addproduct-thumbnail-img"
-            src={!image ? upload_area : URL.createObjectURL(image)}
-            alt=""
-          />
+          <img className="addproduct-thumbnail-img" src={upload_area} alt="" />
         </label>
         <input
-          onChange={(e) => setImage(e.target.files[0])}
+          onChange={onFileChange}
           type="file"
           name="image"
           id="file-input"
           accept="image/*"
           hidden
+          multiple
         />
       </div>
+
+      {!!images.length && (
+        <div className="list-image-preview">
+          {images.map((it, index) => (
+            <div key={index}>
+              <img src={URL.createObjectURL(it)} alt="Preview" />
+            </div>
+          ))}
+        </div>
+      )}
+
       <button
         className="addproduct-btn"
         onClick={() => {

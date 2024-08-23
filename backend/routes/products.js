@@ -50,7 +50,7 @@ productRouter.post("/addproduct", async (req, res) => {
     id: id,
     name: req.body.name,
     description: req.body.description,
-    image: req.body.image,
+    images: req.body.images,
     category: req.body.category,
     new_price: req.body.new_price,
     old_price: req.body.old_price,

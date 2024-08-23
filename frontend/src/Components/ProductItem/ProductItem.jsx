@@ -12,7 +12,7 @@ const ProductItem = (props) => {
         <div className={styles.imageWrap}>
           <img
             onClick={window.scrollTo(0, 0)}
-            src={backend_url + props.image}
+            src={backend_url + props.images[0]}
             alt="products"
             className={styles.image}
           />

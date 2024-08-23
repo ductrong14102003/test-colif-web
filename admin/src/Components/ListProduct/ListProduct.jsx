@@ -44,7 +44,7 @@ const ListProduct = () => {
             <div className="listproduct-format-main listproduct-format">
               <img
                 className="listproduct-product-icon"
-                src={backend_url + e.image}
+                src={backend_url + e.images[0]}
                 alt=""
               />
               <p className="cartitems-product-title">{e.name}</p>
