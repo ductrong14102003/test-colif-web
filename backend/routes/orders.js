@@ -16,8 +16,18 @@ orderRouter.post("/orders", fetchuser, async (req, res) => {
       address,
       message,
       totalPrice,
-      products,
     } = req.body;
+
+    const carts = await Users.findById(user)
+      .populate({
+        path: "cartData.product",
+        model: "Product",
+      })
+      .populate({
+        path: "cartData.variant",
+        model: "Variants",
+      })
+      .exec();
 
     const orderCreated = await new Order({
       customerName,
@@ -26,17 +36,12 @@ orderRouter.post("/orders", fetchuser, async (req, res) => {
       address,
       message,
       totalPrice,
-      products,
+      products: carts.cartData,
       orderBy: user,
     }).save();
 
     // remove cart
-    let cart = {};
-    for (let i = 0; i < 300; i++) {
-      cart[i] = 0;
-    }
-
-    await Users.findByIdAndUpdate(user, { cartData: cart }).exec();
+    await Users.findByIdAndUpdate(user, { cartData: [] }).exec();
 
     res.json({
       status: true,

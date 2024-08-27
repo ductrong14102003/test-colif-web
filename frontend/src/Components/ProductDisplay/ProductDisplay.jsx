@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import "./ProductDisplay.css";
 import star_icon from "../Assets/star_icon.png";
 import star_dull_icon from "../Assets/star_dull_icon.png";
@@ -6,24 +6,34 @@ import { ShopContext } from "../../Context/ShopContext";
 import { backend_url } from "../../App";
 import { formatPrice } from "../../utils";
 import { useNavigate } from "react-router-dom";
+import classNames from "classnames";
 
 const ProductDisplay = ({ product }) => {
   const navigate = useNavigate();
 
+  const [variantSelected, setVariantSelected] = useState(product.variants[0]);
+
   const { addToCart } = useContext(ShopContext);
 
   const onAddCart = () => {
-    addToCart(product.id, () => {
-      navigate("/cart");
-    });
+    addToCart(
+      {
+        productId: product._id,
+        variantId: variantSelected._id,
+      },
+      () => {
+        navigate("/cart");
+      }
+    );
   };
 
   return (
     <div className="productdisplay">
       <div className="productdisplay-left">
         <div className="productdisplay-img-list">
-          {product.images.slice(1, 5).map((it) => (
+          {product.images.slice(1, 5).map((it, index) => (
             <img
+              key={index}
               src={backend_url + it}
               alt="img"
               style={{ objectFit: "cover" }}
@@ -50,11 +60,11 @@ const ProductDisplay = ({ product }) => {
           <p>(122)</p>
         </div>
         <div className="productdisplay-right-prices">
-          <div className="productdisplay-right-price-old">
+          {/* <div className="productdisplay-right-price-old">
             {formatPrice(product.old_price)} đ
-          </div>
+          </div> */}
           <div className="productdisplay-right-price-new">
-            {formatPrice(product.new_price)} đ
+            {formatPrice(variantSelected.price)} đ
           </div>
         </div>
         <div className="productdisplay-right-description">
@@ -63,20 +73,22 @@ const ProductDisplay = ({ product }) => {
         <div className="productdisplay-right-size">
           <h1>Select Size</h1>
           <div className="productdisplay-right-sizes">
-            {Object.entries({
-              "1M2": 500000,
-              "1M5": 700000,
-              "1M8": 900000,
-            }).map(([size, price]) => (
-              <div key={size}>
-                {size} - {formatPrice(price)} đ
+            {product.variants.map((it) => (
+              <div
+                key={it._id}
+                className={classNames({
+                  active: it._id === variantSelected._id,
+                })}
+                onClick={() => setVariantSelected(it)}
+              >
+                {it.name} - {formatPrice(it.price)}đ
               </div>
             ))}
           </div>
         </div>
 
         {/* Select Color */}
-        <div className="productdisplay-right-color">
+        {/* <div className="productdisplay-right-color">
           <h1>Màu sắc</h1>
           <div className="productdisplay-right-colors">
             <div>Vàng</div>
@@ -85,7 +97,7 @@ const ProductDisplay = ({ product }) => {
             <div>Xanh dương</div>
             <div>Xám đen</div>
           </div>
-        </div>
+        </div> */}
 
         <button onClick={onAddCart}>ADD TO CART</button>
         <p className="productdisplay-right-category">

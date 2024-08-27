@@ -1,5 +1,6 @@
 import React, { createContext, useEffect, useState } from "react";
 import { backend_url } from "../App";
+import apiClient from "../api/apiClient";
 
 export const ShopContext = createContext(null);
 
@@ -14,15 +15,11 @@ const ShopContextProvider = (props) => {
     return cart;
   };
 
-  const [cartItems, setCartItems] = useState(getDefaultCart());
+  const [cartItems, setCartItems] = useState();
 
-  useEffect(() => {
-    fetch(`${backend_url}/allproducts`)
-      .then((res) => res.json())
-      .then((data) => setProducts(data));
-
+  const fetchCarts = async () => {
     if (localStorage.getItem("auth-token")) {
-      fetch(`${backend_url}/getcart`, {
+      const r = await fetch(`${backend_url}/getcart`, {
         method: "POST",
         headers: {
           Accept: "application/form-data",
@@ -30,85 +27,77 @@ const ShopContextProvider = (props) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(),
-      })
-        .then((resp) => resp.json())
-        .then((data) => {
-          setCartItems(data);
-        });
+      });
+
+      const result = await r.json();
+      setCartItems(result);
     }
+  };
+
+  const fetchProducts = async () => {
+    try {
+      const data = await apiClient.get("/allproducts");
+      setProducts(data.data);
+    } catch (error) {}
+  };
+
+  useEffect(() => {
+    fetchCarts();
+    fetchProducts();
   }, []);
 
   const getTotalCartAmount = () => {
-    let totalAmount = 0;
-    for (const item in cartItems) {
-      if (cartItems[item] > 0) {
-        try {
-          let itemInfo = products.find(
-            (product) => product.id === Number(item)
-          );
-          totalAmount += cartItems[item] * itemInfo.new_price;
-        } catch (error) {}
-      }
-    }
+    let totalAmount = cartItems?.reduce((total, curr) => {
+      return (total += curr.quantity * curr.variant.price);
+    }, 0);
+
     return totalAmount;
   };
 
-  const getTotalCartItems = () => {
-    let totalItem = 0;
-    for (const item in cartItems) {
-      if (cartItems[item] > 0) {
-        try {
-          let itemInfo = products.find(
-            (product) => product.id === Number(item)
-          );
-          totalItem += itemInfo ? cartItems[item] : 0;
-        } catch (error) {}
-      }
-    }
-    return totalItem;
-  };
-
-  const addToCart = (itemId, callback) => {
+  const addToCart = async ({ productId, variantId }, callback) => {
     if (!localStorage.getItem("auth-token")) {
       alert("Please Login");
       return;
     }
-    setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] + 1 }));
+
     if (localStorage.getItem("auth-token")) {
-      fetch(`${backend_url}/addtocart`, {
+      await fetch(`${backend_url}/addtocart`, {
         method: "POST",
         headers: {
           Accept: "application/form-data",
           "auth-token": `${localStorage.getItem("auth-token")}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ itemId: itemId }),
-      }).then(callback);
+        body: JSON.stringify({ productId, variantId }),
+      });
+
+      await fetchCarts();
+      callback();
     }
   };
 
-  const removeFromCart = (itemId) => {
-    setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] - 1 }));
+  const removeFromCart = async (id) => {
     if (localStorage.getItem("auth-token")) {
-      fetch(`${backend_url}/removefromcart`, {
+      await fetch(`${backend_url}/removefromcart`, {
         method: "POST",
         headers: {
           Accept: "application/form-data",
           "auth-token": `${localStorage.getItem("auth-token")}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ itemId: itemId }),
+        body: JSON.stringify({ id }),
       });
+
+      await fetchCarts();
     }
   };
 
   const removeAllCart = () => {
-    setCartItems(getDefaultCart());
+    setCartItems([]);
   };
 
   const contextValue = {
     products,
-    getTotalCartItems,
     cartItems,
     addToCart,
     removeFromCart,

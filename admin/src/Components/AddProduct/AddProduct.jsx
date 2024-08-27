@@ -13,8 +13,8 @@ const AddProduct = () => {
     description: "",
     images: [],
     category: CATEGORY[0],
-    new_price: "",
-    old_price: "",
+    // new_price: "",
+    // old_price: "",
     content: "",
   });
 
@@ -91,7 +91,7 @@ const AddProduct = () => {
         />
       </div>
 
-      <div className="addproduct-price">
+      {/* <div className="addproduct-price">
         <div className="addproduct-itemfield">
           <p>Price</p>
           <input
@@ -117,7 +117,7 @@ const AddProduct = () => {
             placeholder="Type here"
           />
         </div>
-      </div>
+      </div> */}
 
       <div className="addproduct-itemfield">
         <p>Product category</p>

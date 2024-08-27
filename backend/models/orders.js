@@ -49,6 +49,10 @@ const orderSchema = new Schema(
           type: Object,
           required: true,
         },
+        variant: {
+          type: Object,
+          required: true,
+        },
       },
     ],
     status: {

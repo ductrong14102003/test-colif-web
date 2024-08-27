@@ -25,23 +25,9 @@ const CheckoutPage = () => {
 
   const onSubmit = async (values) => {
     try {
-      const productsData = products
-        .map((e) => {
-          if (cartItems[e.id] > 0) {
-            return {
-              quantity: cartItems[e.id],
-              product: e,
-            };
-          }
-
-          return null;
-        })
-        .filter((it) => it);
-
       await apiClient.post("/orders", {
         ...values,
         totalPrice: getTotalCartAmount(),
-        products: productsData,
       });
 
       removeAllCart();

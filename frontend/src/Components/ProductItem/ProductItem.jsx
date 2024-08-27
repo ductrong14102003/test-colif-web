@@ -12,7 +12,7 @@ const ProductItem = (props) => {
         <div className={styles.imageWrap}>
           <img
             onClick={window.scrollTo(0, 0)}
-            src={backend_url + props.images[0]}
+            src={backend_url + props.images?.[0]}
             alt="products"
             className={styles.image}
           />
@@ -36,7 +36,9 @@ const ProductItem = (props) => {
           <p className={styles.freeShipTxt}>Freeship</p>
         </div>
 
-        <p className={styles.price}>{formatPrice(props.new_price)} đ</p>
+        <p className={styles.price}>
+          {formatPrice(props.variants?.[0]?.price)} đ
+        </p>
 
         <div className={styles.ratingWrap}>
           <div className={styles.ratingInner}>

@@ -34,8 +34,7 @@ const ListProduct = () => {
     <div className="listproduct">
       <h1>All Products List</h1>
       <div className="listproduct-format-main">
-        <p>Products</p> <p>Title</p> <p>Old Price</p> <p>New Price</p>{" "}
-        <p>Category</p> <p>Remove</p>
+        <p>Products</p> <p>Title</p> <p>Price</p> <p>Category</p> <p>Remove</p>
       </div>
       <div className="listproduct-allproducts">
         <hr />
@@ -48,8 +47,7 @@ const ListProduct = () => {
                 alt=""
               />
               <p className="cartitems-product-title">{e.name}</p>
-              <p>{formatPrice(e.old_price)}đ</p>
-              <p>{formatPrice(e.new_price)}đ</p>
+              <p>{formatPrice(e.variants[0].price)}đ</p>
               <p>{e.category}</p>
               <img
                 className="listproduct-remove-icon"

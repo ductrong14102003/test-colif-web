@@ -1,18 +1,39 @@
 const express = require("express");
 const Product = require("../models/products");
+const Variants = require("../models/variant");
 
 const productRouter = express.Router();
 
 // endpoint for getting all products data
 productRouter.get("/allproducts", async (req, res) => {
-  let products = await Product.find({});
+  let products = await Product.find().exec();
+  products = await Promise.all(
+    products.map(async (it) => {
+      const variants = await Variants.find({ category: it.category });
+
+      return {
+        ...it.toJSON(),
+        variants,
+      };
+    })
+  );
   console.log("All Products");
   res.send(products);
 });
 
 // endpoint for getting latest products data
 productRouter.get("/newcollections", async (req, res) => {
-  let products = await Product.find({});
+  let products = await Product.find().exec();
+  products = await Promise.all(
+    products.map(async (it) => {
+      const variants = await Variants.find({ category: it.category });
+
+      return {
+        ...it.toJSON(),
+        variants,
+      };
+    })
+  );
   let arr = products.slice(0).slice(-8);
   console.log("New Collections");
   res.send(arr);
@@ -20,7 +41,17 @@ productRouter.get("/newcollections", async (req, res) => {
 
 // endpoint for getting womens products data
 productRouter.get("/popularinwomen", async (req, res) => {
-  let products = await Product.find({ category: "Đèn" });
+  let products = await Product.find({ category: "Đèn" }).exec();
+  products = await Promise.all(
+    products.map(async (it) => {
+      const variants = await Variants.find({ category: it.category });
+
+      return {
+        ...it.toJSON(),
+        variants,
+      };
+    })
+  );
   let arr = products.splice(0, 4);
   console.log("Popular In Women");
   res.send(arr);
@@ -30,7 +61,17 @@ productRouter.get("/popularinwomen", async (req, res) => {
 productRouter.post("/relatedproducts", async (req, res) => {
   console.log("Related Products");
   const { category } = req.body;
-  const products = await Product.find({ category });
+  let products = await Product.find({ category }).exec();
+  products = await Promise.all(
+    products.map(async (it) => {
+      const variants = await Variants.find({ category: it.category });
+
+      return {
+        ...it.toJSON(),
+        variants,
+      };
+    })
+  );
   const arr = products.slice(0, 4);
   res.send(arr);
 });
@@ -52,8 +93,8 @@ productRouter.post("/addproduct", async (req, res) => {
     description: req.body.description,
     images: req.body.images,
     category: req.body.category,
-    new_price: req.body.new_price,
-    old_price: req.body.old_price,
+    // new_price: req.body.new_price,
+    // old_price: req.body.old_price,
     content: req.body.content,
   });
   await product.save();

@@ -21,8 +21,7 @@ const Popular = (props) => {
                   key={index}
                   name={item.name}
                   images={item.images}
-                  new_price={item.new_price}
-                  old_price={item.old_price}
+                  variants={item.variants}
                 />
               );
             })}

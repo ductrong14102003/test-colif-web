@@ -7,7 +7,6 @@ import { formatPrice } from "../../utils";
 import { Link } from "react-router-dom";
 
 const CartPage = () => {
-  const { products } = useContext(ShopContext);
   const { cartItems, removeFromCart, getTotalCartAmount } =
     useContext(ShopContext);
 
@@ -22,36 +21,34 @@ const CartPage = () => {
         <p>Xóa</p>
       </div>
       <hr />
-      {products.map((e) => {
-        if (cartItems[e.id] > 0) {
-          return (
-            <div key={`product-item-${e.id}`}>
-              <div className="cartitems-format-main cartitems-format">
-                <img
-                  className="cartitems-product-icon"
-                  src={backend_url + e.image}
-                  alt=""
-                />
-                <p>{e.name}</p>
-                <p>{formatPrice(e.new_price)} đ</p>
-                <button className="cartitems-quantity">
-                  {cartItems[e.id]}
-                </button>
-                <p>{formatPrice(e.new_price * cartItems[e.id])} đ</p>
-                <img
-                  onClick={() => {
-                    removeFromCart(e.id);
-                  }}
-                  className="cartitems-remove-icon"
-                  src={cross_icon}
-                  alt=""
-                />
+      {cartItems?.map((e) => {
+        return (
+          <div key={`product-item-${e.id}`}>
+            <div className="cartitems-format-main cartitems-format">
+              <img
+                className="cartitems-product-icon"
+                src={backend_url + e.product.images?.[0]}
+                alt=""
+              />
+              <div>
+                <p>{e.product.name}</p>
+                <p>Option: {e.variant.name}</p>
               </div>
-              <hr />
+              <p>{formatPrice(e.variant.price)} đ</p>
+              <button className="cartitems-quantity">{e.quantity}</button>
+              <p>{formatPrice(e.quantity * e.variant.price)} đ</p>
+              <img
+                onClick={() => {
+                  removeFromCart(e._id);
+                }}
+                className="cartitems-remove-icon"
+                src={cross_icon}
+                alt=""
+              />
             </div>
-          );
-        }
-        return null;
+            <hr />
+          </div>
+        );
       })}
 
       <div className="cartitems-down">

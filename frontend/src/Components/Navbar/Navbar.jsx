@@ -8,7 +8,7 @@ import nav_dropdown from "../Assets/nav_dropdown.png";
 
 const Navbar = () => {
   let [menu, setMenu] = useState("shop");
-  const { getTotalCartItems } = useContext(ShopContext);
+  const { cartItems } = useContext(ShopContext);
 
   const menuRef = useRef();
 
@@ -106,7 +106,8 @@ const Navbar = () => {
         <Link to="/cart">
           <img src={cart_icon} alt="cart" />
         </Link>
-        <div className="nav-cart-count">{getTotalCartItems()}</div>
+
+        {cartItems && <div className="nav-cart-count">{cartItems?.length}</div>}
       </div>
     </div>
   );

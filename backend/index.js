@@ -10,6 +10,7 @@ const authRouter = require("./routes/auth");
 const userRouter = require("./routes/users");
 const productRouter = require("./routes/products");
 const orderRouter = require("./routes/orders");
+const Variants = require("./models/variant");
 
 app.use(express.json());
 app.use(cors());
@@ -23,6 +24,11 @@ app.use("/", authRouter);
 app.use("/", userRouter);
 app.use("/", productRouter);
 app.use("/", orderRouter);
+
+app.post("/variants", async (req, res) => {
+  const variant = await new Variants(req.body).save();
+  res.json(variant);
+});
 
 // Route for Images folder
 app.use("/images", express.static("upload/images"));
